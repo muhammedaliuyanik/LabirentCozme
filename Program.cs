@@ -6,7 +6,7 @@ namespace LabirentCozme
     {       
         public static void Main()
         {
-            InputLabyrinth.input();
+            Labyrinth.input();
 
 
         }

@@ -41,12 +41,12 @@ namespace LabirentCozme
         {
             if (check)
             {
-                j++;
-                temp = this.matrix[i][j];
-                if (temp == '0')
+                if (j != 30)
                 {
-                    if (j != 30)
-                    { 
+                    j++;
+                    temp = this.matrix[i][j];
+                    if (temp == '0')
+                    {
                         RoadMapX();
                         this.matrix[i][j] = '*';
                         CanMoveRight(true);
@@ -56,11 +56,6 @@ namespace LabirentCozme
                         j--;
                         return false;
                     }
-                }
-                else
-                {
-                    j--;
-                    return false;
                 }
             }
             return false;
@@ -75,17 +70,9 @@ namespace LabirentCozme
                     temp = this.matrix[i][j];
                     if (temp == '0')
                     {
-                        if (j != 0)
-                        {
                             RoadMapX();
                             this.matrix[i][j] = '*';
                             CanMoveLeft(true);
-                        }
-                        else
-                        {
-                            j++;
-                            return false;
-                        }
                     }
                     else
                     {
@@ -100,26 +87,21 @@ namespace LabirentCozme
         {
             if (check)
             {
-                i--;
-                temp = this.matrix[i][j];
-                if (temp == '0')
+                if (i != 0)
                 {
-                    if (i != 0)
+                    i--;
+                    temp = this.matrix[i][j];
+                    if (temp == '0')
                     {
-                        RoadMapY();
-                        this.matrix[i][j] = '*';
-                        CanMoveUp(true);
+                            RoadMapY();
+                            this.matrix[i][j] = '*';
+                            CanMoveUp(true);
                     }
                     else
                     {
                         i++;
                         return false;
                     }
-                }
-                else
-                {
-                    i++;
-                    return false;
                 }
             }
             return false;
@@ -128,15 +110,15 @@ namespace LabirentCozme
         {
             if (check)
             {
-                i++;
-                temp = this.matrix[i][j];
-                if (temp == '0')
+                if (i != 30)
                 {
-                    if (i != 30)
+                    i++;
+                    temp = this.matrix[i][j];
+                    if (temp == '0')
                     {
-                        RoadMapY();
-                        this.matrix[i][j] = '*';
-                        CanMoveDown(true);
+                            RoadMapY();
+                            this.matrix[i][j] = '*';
+                            CanMoveDown(true);
                     }
                     else
                     {
@@ -144,11 +126,6 @@ namespace LabirentCozme
                         return false;
                     }
                 }
-                else
-                {
-                    i--;
-                    return false;
-                } 
             }
             return false;
         }
@@ -169,13 +146,13 @@ namespace LabirentCozme
             
             while (false != CanMoveLeft(true))
                 CanMoveLeft(true);
-            /*
+            
             while (false != CanMoveUp(true))
                 CanMoveUp(true);
 
             while (false != CanMoveDown(true))
                 CanMoveDown(true);
-            */
+            
             Print();
         }
         public void ReadLabyrinth() //matris oluşturulur

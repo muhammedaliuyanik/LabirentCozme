@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace LabirentCozme
 {
@@ -57,6 +58,7 @@ namespace LabirentCozme
                         return false;
                     }
                 }
+            
             }
             return false;
         }
@@ -141,19 +143,25 @@ namespace LabirentCozme
         {
             temp = this.matrix[i][j];
 
-            while (false != CanMoveRight(true))
-                CanMoveRight(true);
-            
-            while (false != CanMoveLeft(true))
-                CanMoveLeft(true);
-            
-            while (false != CanMoveUp(true))
-                CanMoveUp(true);
+            while (true)
+            {
+                while (false != CanMoveRight(true))
+                    CanMoveRight(true);
 
-            while (false != CanMoveDown(true))
-                CanMoveDown(true);
+                while (false != CanMoveLeft(true))
+                    CanMoveLeft(true);
+
+                while (false != CanMoveUp(true))
+                    CanMoveUp(true);
+
+                while (false != CanMoveDown(true))
+                    CanMoveDown(true);
+
+                Thread.Sleep(200);
+                Console.Clear();
+                Print();
+            }
             
-            Print();
         }
         public void ReadLabyrinth() //matris oluşturulur
         {

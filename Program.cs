@@ -12,7 +12,7 @@ namespace LabirentCozme
             Labyrinth firstLabyrinth = new Labyrinth(workingDir + @"/../../../labirentler/Lab1Yol0.txt");
 
             firstLabyrinth.ReadLabyrinth();
-            firstLabyrinth.Print();
+            firstLabyrinth.Move();
            
             //Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab1Yol1.txt");
             // Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab2Yol0.txt");

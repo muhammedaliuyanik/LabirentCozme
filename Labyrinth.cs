@@ -11,92 +11,67 @@ namespace LabirentCozme
         public static int counter = 1;
         public static void Counter()
         {
-            Console.WriteLine("[******** {0}. Labirent ********]", Counter2());
+            Console.WriteLine("[******** {0}. Labirent ********]", counter++);
             Console.BufferWidth = 130;
             Console.SetWindowSize(Console.BufferWidth, 35);
         }
-
-        public static int Counter2()
+        public void Print()
         {
-            return counter++;
+            Console.WriteLine("[****************************]");
+            Console.WriteLine("Diğer Labirentleri görmek için ENTER basın.");
         }
     }
 
-    class Labyrinth
+    public class Labyrinth
     {
-        public static void LabyrinthMove(char[][] matrix)
+        char[][] matrix;
+        string path;
+        int x, y;
+        public Labyrinth(string path)
         {
+            this.path = path;
+            this.matrix = new char[30][];
+        }
+        public void CanMoveRight()
+        {
+
+        }
+        public void Move() //button press,
+        {
+            Console.Clear();
             for (int i = 0; i < 30; i++)
             {
                 for (int j = 0; j < 30; j++)
                 {
-                    char temp = matrix[i][j];
-
-
-
+                    char temp = this.matrix[i][j];
+                    x = i;
+                    y = j;
                 }
             }
-            Show(matrix);
+            
+            //Print();
         }
-        public static void input()
+        public void ReadLabyrinth() //matris oluşturulur
         {
-            string _filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            char[][] data = File.ReadLines(this.path).Select(line => line.ToCharArray()).ToArray();
 
-            CreateMatrix(_filePath + @"/../../../labirentler/Lab1Yol0.txt");
-            //Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab1Yol1.txt");
-            // Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab2Yol0.txt");
-            //Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab2Yol1.txt");
-
-        }
-        public static void CreateMatrix(string adress) //matris oluşturulur
-        {
-            try
-            {
-                char[][] data = File.ReadLines(adress).Select(line => line.ToCharArray()).ToArray();
-
-                LabyrinthTransfer(data);
-
-                //PrintMatrix.Show(data);
-            }
-            catch (UnauthorizedAccessException uAEx)
-            {
-                Console.WriteLine(uAEx.Message);
-            }
-            catch (PathTooLongException pathEx)
-            {
-                Console.WriteLine(pathEx.Message);
-            }
-            finally
-            {
-                Console.ReadLine();
-                Console.Clear();
-            }
-        }
-        public static void LabyrinthTransfer(char[][] data)
-        {
             for (int i = 0; i < 30; i++)
             {
                 data[i] = Array.FindAll(data[i], c => (c == '1' || c == '0'));
-
             }
+            this.matrix = data;
 
-            //PrintMatrix.Show(temp1);
-            LabyrinthMove(data);
         }
-        public static void Show(char[][] data)
+        public void Print()
         {
-            LabyrinthCounter.Counter();
-
             for (int i = 0; i < 30; i++)
             {
                 for (int j = 0; j < 30; j++)
                 {
-                    Console.Write(data[i][j]);
+                    Console.Write(this.matrix[i][j]);
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("[****************************]");
-            Console.WriteLine("Diğer Labirentleri görmek için ENTER basın.");
         }
     }
 }

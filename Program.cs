@@ -1,25 +1,22 @@
 ﻿using System;
 using System.IO;
 namespace LabirentCozme
-{ 
-    
+{
     public class program
-    {       
+    {
+        public static string workingDir = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
         public static void Main()
         {
-            string workingDir = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            Labyrinth firstLabyrinth = new Labyrinth(workingDir + @"/../../../labirentler/Lab2Yol0.txt");
 
-            Labyrinth firstLabyrinth = new Labyrinth(workingDir + @"/../../../labirentler/Lab1Yol0.txt");
+            firstLabyrinth.ReadLabyrinth(); //Labirent txt dosyasından okunup matrise atılıyor.
+            firstLabyrinth.Bomb(); // Labirent matrisine bomba yerleştiriliyor.
+            firstLabyrinth.CreateLabyrinth(); // labirent oluşturma fonksiyonu
+            firstLabyrinth.Menu();
+            firstLabyrinth.MoveThread(); // labirent içerisinde hareket algoritması
+            
 
-            firstLabyrinth.ReadLabyrinth();
-            firstLabyrinth.Move();
-           
-            //Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab1Yol1.txt");
-            // Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab2Yol0.txt");
-            //Matrix.CreateMatrix(_filePath + @"/../../../labirentler/Lab2Yol1.txt");
-
-
-        }
+        } 
     }
-    
 }
+    

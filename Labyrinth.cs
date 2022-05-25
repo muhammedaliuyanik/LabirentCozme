@@ -8,10 +8,11 @@ namespace LabirentCozme
 {
     public class Labyrinth
     {
+        char temp2;
         string path;
         List<int> xPos;
         List<int> yPos;
-        int i = 0, j = 0;
+        int i = 0, j = 0, column, row;
         Random Random;
         char[][] matrix;
         char[,] matrix1;
@@ -26,20 +27,28 @@ namespace LabirentCozme
             xPos = new List<int>(); // matrisin i ve j kordinatlarının tutulduğu list.
             yPos = new List<int>();
         }
-
-        public void Bomb()
+        
+        public bool RandomBombColumnRow() // bombanın kordinatlarını random belirliyor.
         {
-            for (int i = 0; i < 3; i++)
+            column = Random.Next(0, 28);
+            row = Random.Next(0, 28);
+
+            if (matrix[row][column] == '0')
             {
-                int column = Random.Next(0, 30);
-                int row = Random.Next(0, 30);
-
-                char temp2 = matrix[row][column];
-
-                if (temp2 == '0')
-                    this.matrix[row][column] = '2';
+                matrix[row][column] = 'B';
             }
+                
+            return matrix[row][column] == 'B';
+        }
 
+        public void Bomb() // labirentte yol üzerinde Rastgele 3 yere bomba yerleştiriyor.
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                while (RandomBombColumnRow() != true);     
+            }
+            
+            Print();
         }
 
         public void CreateLabyrinth() //labirent oluşturmak için kullanılıyor.
@@ -84,7 +93,7 @@ namespace LabirentCozme
 
             for (int a = 0; a < firstDown; a++)
             {
-                 matrix1[a, startX] = 'X';
+                matrix1[a, startX] = 'X';
             }
 
             x = startX;
@@ -92,7 +101,7 @@ namespace LabirentCozme
 
             for (int cc = 0; cc < firstLeft; cc++)
             {
-                 matrix1[y, x] = 'X';
+                matrix1[y, x] = 'X';
                 x -= 2;
             }
 
@@ -100,7 +109,7 @@ namespace LabirentCozme
             {
                 matrix1[y, x] = 'X';
                 if (y == 29) break;
-                y++; 
+                y++;
             }
 
             //oluşturulan labirent matrisi txt belgesine kaydediliyor.
@@ -117,13 +126,7 @@ namespace LabirentCozme
             }
         }
 
-        public void RoadMap() // Gidilen yol listeye i=y(dikey eksen) ve j=x(yatay eksen) olarak kayıt ediliyor.
-        {
-            xPos.Add(j);
-            yPos.Add(i);
-        }
-
-        public void Move(System.ConsoleKey direction)
+        public void Move(System.ConsoleKey direction) // hareketler up down left right
         {
             int x = 0, y = 0; // gitmek istediğim kordinatlar
 
@@ -173,23 +176,18 @@ namespace LabirentCozme
             RoadMap();
         }
 
-
-        // {{0,0,1,*,0,0,1,0,0,0,1,0,0,1,0,1,1,0,1,0,0,0,0,0,0,1,1,1,0,1},
-        //  {0,1,1,1,1,*,1,1,0,0,0,1,0,0,0,0,0,0,1,1,0,1,0,1,0,1,0,1,1,1},
-        //  {1,1,0,1,1,0,0,*,1,1,0,0,1,0,1,0,0,1,0,1,1,0,0,0,0,1,1,1,1,1},
-        //  {1,0,1,1,1,0,1,0,0,*,1,1,0,1,1,0,1,1,1,1,1,0,0,0,0,0,1,0,1,0},
-        //  {1,1,1,0,0,0,0,0,1,1,0,*,1,1,1,1,0,0,0,1,1,1,1,1,1,0,1,1,1,0},
-        //  {1,1,1,0,1,0,0,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,1,1,1,1,1},
-
-        public bool canGoDown()
+        public bool canGoDown() // FindSolution a bağlı aşağı gidilebilir mi kontrolü
         {
             if (i > 28)
-                i = 28;  
-            
-            return matrix[i + 1][j] == '0';
+                return false;
+
+            if (matrix[i + 1][j] == '0')
+                return true;
+            else
+            return false;
         }
 
-        public void FindSolution() // i = y yani kordinat düzleminde yukarı
+        public void FindSolution() // labirent çözüm algoritması
         {
 
             while (i < 30)
@@ -197,46 +195,56 @@ namespace LabirentCozme
                 for (var a = 0; a < 30; a++) // satırı gez
                 {
                     j = a;
+                    int tempi = i;
                     if (canGoDown()) // her satırda assayı kontrol et
                     {
                         matrix[i][j] = 'X';
+                        RoadMap();
                         i = i + 1;
                         break;
-                    };
+                    }
+                    else if (!canGoDown())
+                    {
+                        i = tempi;
+                        matrix[i][j] = 'X';
+                        RoadMap();
+                        break;
+                    }
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
                 Print();
             }
         }
-
 
         public void Menu()
         {
             Console.Clear();
             Console.WriteLine("************************ \n Lütfen seçim yapınız: \n [Yol Kordinatları için 'X']" +
                 "\n [Bombaların kordinatları için 'B'] \n [Labirentin orjinal hali için 'L'] \n" +
-                "seçip ENTER tuşuna basın. \n ************************");
+                " seçip ENTER tuşuna basın. \n ************************");
             var select = Console.ReadLine();
             switch (select)
             {
                 case "X":
                 case "x":
+                    FindSolution(); // Labirent çözümü bulunuyor.
                     PrintRoadMap();
                     break;
                 case "B":
                 case "b":
+                    Bomb();
                     break;
                 case "L":
                 case "l":
-                    FindSolution();
+                    Print();
                     break;
                 default:
                     Console.WriteLine("Yanlış bir seçim yaptınız.");
-                    break;
+                    return;
             }
         }
 
-        public void MoveThread() //hareket yönetimi
+        public void MoveThread() //hareket yönetimi manuel
         {
             matrix[0][0] = '*';
 
@@ -256,33 +264,9 @@ namespace LabirentCozme
                 Print();
             }
 
-            // while (true)
-            // {
-            //     if (wall != 1)
-            //     {
-            //         MoveRight();
-            //         Print();
-            //         if (wall != 1)
-            //         {
-            //             MoveDown();
-            //             Print();
-            //             if (i != -1 && wall != 1)
-            //             {
-            //                 MoveUp();
-            //                 Print();
-            //             }
-
-            //         }
-
-            //     }
-
-            // }
-
-
-
         }
 
-        public void ReadLabyrinth() //matris oluşturuluyor.
+        public void ReadLabyrinth() // labirent okunup matris oluşturuluyor.
         {
             char[][] data = File.ReadLines(this.path).Select(line => line.ToCharArray()).ToArray();
 
@@ -293,15 +277,13 @@ namespace LabirentCozme
             this.matrix = data; // matrisler kopyalanıyor.
         }
 
-        private void CheckAndResetWindowSize()
+        public void RoadMap() // Gidilen yol listeye i=y(dikey eksen) ve j=x(yatay eksen) olarak kayıt ediliyor.
         {
-            if (Console.WindowHeight != 50 || Console.WindowWidth != 45)
-            {
-                Console.SetWindowSize(50, 45);
-            }
+            xPos.Add(j);
+            yPos.Add(i);
         }
 
-        public void PrintRoadMap() // gidilen yolu matris üzerine ekliyor
+        public void PrintRoadMap() // gidilen yolu matris üzerine ekliyor ve ekrana yazdırıyor.
         {
             foreach (int item2 in yPos) // dikey eksen matrisin i değeri
             {
@@ -312,6 +294,15 @@ namespace LabirentCozme
             }
             Print();
         }
+
+        private void CheckAndResetWindowSize()
+        {
+            if (Console.WindowHeight != 50 || Console.WindowWidth != 45)
+            {
+                Console.SetWindowSize(50, 45);
+            }
+        } // console ekranı boyutunu ayarlıyor
+
         public void Print() // matrisi ekrana yazdırıyor
         {
             Console.Clear();
@@ -328,6 +319,7 @@ namespace LabirentCozme
             }
             Console.WriteLine("*****************************");
         }
-
     }
+
 }
+

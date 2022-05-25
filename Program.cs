@@ -10,10 +10,9 @@ namespace LabirentCozme
             Labyrinth firstLabyrinth = new Labyrinth(workingDir + @"/../../../labirentler/Lab2Yol0.txt");
 
             firstLabyrinth.ReadLabyrinth(); //Labirent txt dosyasından okunup matrise atılıyor.
-            firstLabyrinth.Bomb(); // Labirent matrisine bomba yerleştiriliyor.
             firstLabyrinth.CreateLabyrinth(); // labirent oluşturma fonksiyonu
             firstLabyrinth.Menu();
-            firstLabyrinth.MoveThread(); // labirent içerisinde hareket algoritması
+            //firstLabyrinth.MoveThread(); // labirent içerisinde manuel hareket algoritması
             
 
         } 

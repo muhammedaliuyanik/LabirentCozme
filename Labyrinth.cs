@@ -189,16 +189,16 @@ namespace LabirentCozme
 
         public void FindSolution() // labirent çözüm algoritması
         {
-
+            i = 0;
             while (i < 30)
-            {
-                for (var a = 0; a < 30; a++) // satırı gez
+            {               
+                for (int a = 28; a == 0; a--) // satırı gez
                 {
-                    j = a;
                     int tempi = i;
+                    Console.WriteLine(tempi);
                     if (canGoDown()) // her satırda assayı kontrol et
                     {
-                        matrix[i][j] = 'X';
+                        matrix[i][a] = 'X';
                         RoadMap();
                         i = i + 1;
                         break;
@@ -206,13 +206,13 @@ namespace LabirentCozme
                     else if (!canGoDown())
                     {
                         i = tempi;
-                        matrix[i][j] = 'X';
+                        matrix[i][a] = 'X';
                         RoadMap();
                         break;
                     }
                 }
                 Thread.Sleep(1000);
-                Print();
+               Print();
             }
         }
 

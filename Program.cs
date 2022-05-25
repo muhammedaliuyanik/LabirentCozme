@@ -12,7 +12,7 @@ namespace LabirentCozme
             firstLabyrinth.ReadLabyrinth(); //Labirent txt dosyasından okunup matrise atılıyor.
             firstLabyrinth.CreateLabyrinth(); // labirent oluşturma fonksiyonu
             firstLabyrinth.Menu();
-            //firstLabyrinth.MoveThread(); // labirent içerisinde manuel hareket algoritması
+            firstLabyrinth.MoveThread(); // labirent içerisinde manuel hareket algoritması
             
 
         } 
